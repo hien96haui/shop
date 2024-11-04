@@ -1,0 +1,172 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* Đảm bảo tính toán chiều rộng và chiều cao chính xác */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    line-height: 1.6; /* Tăng khoảng cách dòng cho dễ đọc */
+}
+
+.wrapper {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px auto; /* Tự động căn giữa */
+    max-width: 1200px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng cho wrapper */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Căn chỉnh theo đầu trên cùng */
+    width: 100%;
+}
+
+/* Phần bên trái (mockup nhỏ) */
+.image-small {
+    flex: 0.2; /* Giảm kích thước phần nhỏ lại */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    order: -1; /* Đặt mockup nhỏ ở trên cùng */
+}
+
+/* Hình ảnh mockup nhỏ */
+.image-small img {
+    width: 80px; /* Đặt chiều rộng cố định cho hình ảnh nhỏ */
+    height: auto; /* Tự động điều chỉnh chiều cao */
+    margin-bottom: 10px; /* Khoảng cách giữa các hình ảnh nhỏ */
+}
+
+/* Phần giữa (mockup chính) */
+.image-main {
+    flex: 1; /* Thay đổi kích thước chính để cân bằng */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Để các nút điều hướng có thể được căn chỉnh */
+}
+
+.image-main img {
+    width: 400px; /* Chiều rộng hình ảnh chính */
+    height: auto; /* Tự động điều chỉnh chiều cao */
+    object-fit: cover; /* Đảm bảo ảnh được cắt đúng tỉ lệ */
+}
+
+/* Nút điều hướng cho mockup */
+.slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.slider-button img {
+    width: 30px;
+    height: 30px;
+}
+
+.slider-button.left {
+    left: 10px;
+}
+
+.slider-button.right {
+    right: 10px;
+}
+
+.details {
+    flex: 0.6; /* Tăng kích thước phần thông tin */
+    padding: 20px;
+    background: white;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Sắp xếp theo chiều dọc */
+        align-items: center; /* Căn giữa các phần tử */
+        justify-content: center; /* Đảm bảo các phần tử được căn giữa */
+        margin: 0;
+        padding: 0;
+    }
+
+    .image-small {
+        display: none; /* Ẩn phần nhỏ trên thiết bị di động */
+    }
+
+    .image-main {
+        width: 100%; /* Chiếm toàn bộ chiều rộng */
+        margin: 0; /* Đặt margin 0 để căn giữa */
+    }
+
+    .details {
+        width: 100%; /* Chiếm toàn bộ chiều rộng */
+    }
+}
+
+h2 {
+    font-size: 1.5rem; /* Sử dụng đơn vị tương đối */
+    margin: 0;
+}
+
+.price {
+    font-size: 1.25rem; /* Sử dụng đơn vị tương đối */
+    color: green;
+}
+
+.attributes {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+select {
+    width: 100%;
+    padding: 10px; /* Giữ padding cho select */
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease; /* Thêm hiệu ứng cho select */
+}
+
+select:focus {
+    border-color: blue; /* Đổi màu border khi chọn */
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển màu */
+}
+
+.button:hover {
+    background-color: darkblue;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f1f1f1;
+    position: relative;
+    margin-top: 20px;
+}
