@@ -7,19 +7,19 @@
 		
 		public function getProperties($product_id='')
 		{	
-			// $value = $_SESSION["carts"];
-			// $str = '';
-			// $i=0;
-			// foreach ($_SESSION['carts'] as $p => $q) {
-			// 		// $arr = explode("/", $p);
-			// 		// $str = $str.$arr[1]." ";
-			// 		$type[$i]=$this->getType();
-			// 		// $a["colors"][$i] = getColor();
-			// 		// $a["getSize"][$i]  getSize();
-			// 		$i++;
-			// }
-			// return $type;
-			return 1;
+			$type["value"] = $_POST["value"]."dsdas";
+			$type["data"] = [];
+			if(isset($_SESSION["carts"])){
+				$value = $_SESSION["carts"];
+				$i=0;
+				foreach ($_SESSION['carts'] as $p => $q) {
+					$type["data"][$i]=$this->getType().$this->getColor().$this->getSize();		
+					$i++;
+				}
+			}
+				return $type;
+			
+			// return 1;
 		}
 		function getType()
 		{
@@ -31,7 +31,7 @@
 		}
 		function getSize()
 		{
-			return "Black";
+			return "M";
 		}
 		
 
