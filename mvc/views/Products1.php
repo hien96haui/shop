@@ -1,8 +1,6 @@
 <?php
     $product_id = $data["data"]["product_id"];
     $color_type = $data["data"]["color_type"];  
-    // $b = $_SESSION['carts'];
-
 ?>
 <body>
  <div class="wrapper">
@@ -84,11 +82,7 @@
      var color_type= "<?php echo $data["data"]["color_type"] ?>";
      var product_id= "<?php echo $data["data"]["product_id"] ?>";
     $(document).ready(function() {
-        // var color_type= "<?php echo $data["data"]["color_type"] ?>";
-        //  var product_id= "<?php echo $data["data"]["product_id"] ?>";
         $('#typeOptions').change(function() {
-            
-            
             const typeId = $(this).val();
             if (typeId) {
                 $.ajax({
@@ -144,72 +138,124 @@
             updateMockup(color_type,product_id,2);
         });
         $('#sizeOptions').change(function() {
-            // console.log("sda");
              $('#productPrice').empty().append('300.000');
         });
-         $('#atcbtn').click(function() {
+        $(document).on('change', '.typeChange', function() {
+            const typeSelected = $(this).val();
+            const productId = $(this).data('product-id');
+            let newProductId = replaceNthFromEnd(productId,5,typeSelected);
            
-            // console.log(product_id);
-            // const value = $('#quanlity').val();
+            // const value = color_type+"/"+product_id+"/" +typeOptions +"/" + colorOptions +"/" +sizeOptions;
+            // const selectedData = $(this).find('option:selected').data('other'); 
+            // console.log(newProductId);
+           
+            $.ajax({
+                url: '/set_session',
+                type: 'POST',
+                data: {post_type:"1",productId:newProductId},
+                dataType: 'json',
+                success: function(response) {
+                    // const colorSelect = $('.color-change[data-product-id="' + productId + '"]');
+                    // colorSelect.empty();
+                    // colorSelect.append('<option value="">-- Chọn Màu --</option>');
+                    newProductId = replaceNthFromEnd(newProductId, 1,1);
+                     newProductId = replaceNthFromEnd(newProductId, 3,1);
+                    let imgStr = '<image style="width:100px; height:100px;" src="/public/images/products/'+newProductId+'.png">';
+                    $('.imachange[data-product-id="' + productId + '"]').html(imgStr);
+                    $('.color-change[data-product-id="' + productId + '"]').html('<option></option>'+response.value);
+                    $('.size-change[data-product-id="' + productId + '"]').html('<option></option>');
+
+                    console.log(response.value);  
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("error typeChange"); 
+                }
+            });
+          });
+        $(document).on('change', '.color-change', function() {
+            const colorSelected = $(this).val();
+            const productId = $(this).data('product-id');
+            const typeOptions = $('.typeChange[data-product-id="' + productId + '"]').val();
+            
+           
+            // const value = color_type+"/"+product_id+"/" +typeOptions +"/" + colorOptions +"/" +sizeOptions;
+            // const selectedData = $(this).find('option:selected').data('other'); 
+            // console.log(typeOptions);
+            let newcolor = replaceNthFromEnd(productId,3,colorSelected);
+            newcolor = replaceNthFromEnd(newcolor,5,typeOptions);
+            console.log(newcolor);
+            $.ajax({
+                url: '/set_session',
+                type: 'POST',
+                data: {post_type:"2",productId:newcolor},
+                dataType: 'json',
+                success: function(response) {
+                    // const colorSelect = $('.color-change[data-product-id="' + productId + '"]');
+                    // colorSelect.empty();
+                    // colorSelect.append('<option value="">-- Chọn Màu --</option>');
+                    // newProductId = replaceNthFromEnd(newProductId, 1,1);
+                    //  newProductId = replaceNthFromEnd(newProductId, 3,1);
+                    newcolor = replaceNthFromEnd(newcolor,1,"1");
+                    let imgStr = '<image style="width:100px; height:100px;" src="/public/images/products/'+newcolor+'.png">';
+                    $('.imachange[data-product-id="' + productId + '"]').html(imgStr);
+                    // $('.color-change[data-product-id="' + productId + '"]').html(response.value);
+                    $('.size-change[data-product-id="' + productId + '"]').html(response.value);
+
+                    console.log(response.value);  
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("error typeChange"); 
+                }
+            });
+          });
+        $(document).on('change', '#quanlilyChange', function() {
+            const selectedData = $(this).find('option:selected').data('other'); 
+             
+            const quanlity = $(this).val();
+            $.ajax({
+                url: '/set_session',
+                type: 'POST',
+                data: {post_type:"3",value:selectedData,quanlity:quanlity},
+                dataType: 'json',
+                success: function(response) {
+                    console.log("success typeChange");      
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("error typeChange"); 
+                }
+            });
+          });
+
+        $('#atcbtn').click(function() {
             const typeOptions = $('#typeOptions').val();
             const colorOptions = $('#colorOptions').val();
             const sizeOptions = $('#sizeOptions').val();
             const value = color_type+"/"+product_id+"/" +typeOptions +"/" + colorOptions +"/" +sizeOptions;
-             // console.log(value);
             const quanlity = $('#quanlity').val();
-            // console.log(quanlity);
              $.ajax({
-                    url: '/set_session',
-                    type: 'POST',
-                    data: {value:value,quanlity:quanlity},
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            console.log("success");
-                            // d=response.value;
-                            // console.log(response);
-                            // $('#product_type').text(response.product_type);
-                            $('#dialogContent').html(response.value);
-                            openDialog();
-                            // alert('Session value set: ' + response.value);
-                        } else {
-                            // console.log("dsadsa");
-                        }
-                    },
-                    error: function() {
-                         console.log("error");
-                    }
-                });
-            // console.log(value);
-             // window.onload = openDialog;
-             // setTimeout(openDialog, 1);
-            // openDialog();
-             // $('#productPrice').empty().append('300.000');
+                url: '/set_session',
+                type: 'POST',
+                data: {value:value,quanlity:quanlity},
+                dataType: 'json',
+                success: function(response) {
+                    $('#dialogContent').html(response.value);
+                    openDialog();
+                },
+                error: function() {
+                     console.log("error");
+                }
+            });
         });
     });
-    
-
-
-
     function updateSmallMockup(id){
-        // var color_type= "<?php echo $data["data"]["color_type"] ?>";
-        //  var product_id= "<?php echo $data["data"]["product_id"] ?>";
-        // console.log(color_type);
         updateMainImage(id,product_id,color_type);
     }
     function changeMockupImage(direction){
-        // console.log("changeMockupImage  ");
-        // var color_type= "<?php echo $data["data"]["color_type"] ?>";
-        //  var product_id= "<?php echo $data["data"]["product_id"] ?>";
-         // console.log(color_type);
         changeImage(direction,product_id,color_type);
     }
-
-
     // Sự kiện vuốt
     let touchstartX = 0;
     let touchendX = 0;
-
     const mainImageDiv = document.querySelector('.image-main');
     mainImageDiv.addEventListener('touchstart', (event) => {
         touchstartX = event.changedTouches[0].screenX;
@@ -219,6 +265,21 @@
         touchendX = event.changedTouches[0].screenX;
         handleSwipe(product_id,color_type);
     });
+    function replaceNthFromEnd(str, n, replacement) {
+        let arr = str.split("");  // Chuyển chuỗi thành mảng ký tự
+        let indexFromEnd = arr.length - n;
+
+        // Kiểm tra nếu n hợp lệ
+        if (indexFromEnd < 0 || indexFromEnd >= arr.length) {
+            return str;  // Nếu n không hợp lệ, trả về chuỗi gốc
+        }
+
+        // Thay thế ký tự tại vị trí n từ dưới lên
+        arr[indexFromEnd] = replacement;
+
+        // Kết hợp lại thành chuỗi và trả về
+        return arr.join("");
+    }
     </script>
     <script>
             const dialog = document.getElementById('myDialog');
@@ -229,34 +290,11 @@
             const successMessage = document.getElementById('successMessage');
             const dialogContent = document.getElementById('dialogContent');
             function openDialog(){
-
-
-                //  $.ajax({
-                //     url: '/demo/get_session_value.php',
-                //     type: 'GET',
-                //     dataType: 'json',
-                //     success: function (data) {
-                //             b = response; // Gán giá trị cho biến b
-                //             $('#dialogContent').find('#sessionValueB').text(b);
-                //     },
-                //     error: function () {
-                //         console.error('Error fetching session value.');
-                //     }
-                // });
-
-
                  dialog.classList.add('show'); 
                 // document.body.style.overflow = 'hidden'; 
                 // successMessage.style.opacity = '1'; // Hiện thông báo khi mở dialog
                 // closeDialogHeaderButton.style.opacity = '0'; // Ẩn nút "x" của header khi mở
-            }
-            // openDialogButton.addEventListener('click', () => {
-            //     dialog.classList.add('show'); 
-            //     document.body.style.overflow = 'hidden'; 
-            //     successMessage.style.opacity = '1'; // Hiện thông báo khi mở dialog
-            //     closeDialogHeaderButton.style.opacity = '0'; // Ẩn nút "x" của header khi mở
-            // });
-
+            }    
             closeDialogButton.addEventListener('click', () => {
                 dialog.classList.remove('show'); 
                 document.body.style.overflow = 'auto'; 
@@ -296,4 +334,4 @@
                 document.body.style.overflow = 'auto'; 
             });
         </script>
-</body
+</body>

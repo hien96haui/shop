@@ -4,16 +4,16 @@
 		function index($id=''){
 			$home = $this->model("ProductsDBModel");
 			if(!empty($_GET['color_id'])){
-			
+				$color_type =$_GET['color_type'];
 				$type = $_GET['styles_id'];	
 				$color = $_GET['color_id'];
-				$data = $home->getSizes($type,$color);
+				$data = $home->getSizes($type,$color,$color_type);
 			}
 			else {
-					if(!empty($_GET['styles_id'])){
-					$type = $_GET['styles_id'];	
-					$color_type =$_GET['color_type'];	
-					$data = $home->getProperties($type,$color_type);
+				if(!empty($_GET['styles_id'])){
+				$type = $_GET['styles_id'];	
+				$color_type =$_GET['color_type'];	
+				$data = $home->getProperties($type,$color_type);
 				}
 				// else $data = $home->getProperties(0);
 			}	

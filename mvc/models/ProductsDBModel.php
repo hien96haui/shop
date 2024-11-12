@@ -16,10 +16,10 @@
 
 	        return $data; // Trả về mảng
 		}
-		public function getSizes($styles_id='',$color_id='')
+		public function getSizes($styles_id='',$color_id='',$color_type='')
 		{
 			
-			$sql = "SELECT DISTINCT size.id, size.Title FROM product_properties join size on product_properties.size =size.id WHERE product_properties.type =".$styles_id." and product_properties.color = ".$color_id;
+			$sql = 'SELECT DISTINCT size.id, size.Title FROM product_properties join size on product_properties.size =size.id WHERE product_properties.type ="'.$styles_id.'" and product_properties.color = "'.$color_id.'" and product_properties.group_id="'.$color_type.'"';
 	        $result = $this->conn->query($sql);
 	        $data=[];
 
